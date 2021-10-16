@@ -311,6 +311,10 @@ function createItemNotes(request) {
     }
 
     notes = notes +' por '+ request.data().value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+
+    if (request.data().paidvalue > 0 && request.data().paidvalue !== request.data().value)
+        notes = notes + '. Valor restante: ' + (request.data().value - request.data().paidvalue).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+
     return notes;
 }
 
@@ -421,7 +425,8 @@ function formatNotes(request) {
         notes = request.data().items.water + ' águas ';
 
     notes = notes +'por '+ request.data().value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
-    if (request.data().paidvalue > 0) notes = notes + '. Valor restante: ' + (request.data().value - request.data().paidvalue).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+    if (request.data().paidvalue > 0)
+        notes = notes + '. Valor restante: ' + (request.data().value - request.data().paidvalue).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
 
     return notes;
 }

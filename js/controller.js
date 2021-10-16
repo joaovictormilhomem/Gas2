@@ -30,7 +30,17 @@ function handleRenderRequests() {
 
 function handleRenderForwards(forwards) {
     let requestsNotDeletedAndIsFinished = forwards.filter(wasNotDeletedAndIsFinished);
-    requestsNotDeletedAndIsFinished.forEach(forward => renderForward(forward));
+
+    let requestsNotDeletedAndIsFinishedAndSorted = requestsNotDeletedAndIsFinished.sort( (a, b) => {
+        if (a.data().startTime < b.data().startTime)
+            return -1;
+        else if (a.data().startTime > b.data().startTime)
+            return 1;
+        else
+            return 0;
+    });
+
+    requestsNotDeletedAndIsFinishedAndSorted.forEach(forward => renderForward(forward));
 }
 
 function handleNewExpenseClick(value, item, notes){
