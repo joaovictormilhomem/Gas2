@@ -1,0 +1,74 @@
+#page_forwards{
+    padding: 10px;
+    margin-top: 20px;
+    display: none;
+}
+
+.search_bar{
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.search_bar input{
+    background-color: transparent;
+    width: 100%;
+    padding: 10px;
+    font-size: 2rem;
+    color: #0a3d62;
+    border-style:double;
+    border-radius: 5px;
+}
+.search_bar input:focus{
+    outline: none;
+    border-color: #4A69BD;
+}
+
+.search_bar button{
+    width: 100px;
+    height: 60px;
+}
+
+.forward{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    position: relative;
+    margin-bottom: 20px;
+}
+.forward:hover{
+    border-radius: 20px;
+    background-color: rgb(74, 105, 189, 0.1);
+    transition: ease-in-out 0.2s background-color,border-radius;
+}
+
+.forward_address{
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.forward_telephone{
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.forward_notes{
+    font-size: 1.4rem;
+    font-weight: 300;
+    bottom: 10px;
+}
+
+.pay_forward{
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color var(--hover-transition-time) ease-in-out;
+    user-select: none;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+.pay_forward:hover{
+    background-color: rgba(255, 0, 0, 0.5);
+}

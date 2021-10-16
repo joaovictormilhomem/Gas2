@@ -1,0 +1,28 @@
+.fixed-buttons-container{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+}
+
+.fixed-button{
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width: 72px;
+    height: 72px;
+    cursor: pointer;
+    display: block;
+    margin-left: 10px;
+}
+
+.add-button{
+    background-image: url(../assets/add_circle_black_24dp.svg);
+}
+
+.done-button{
+    background-image: url(../assets/done.svg);
+}
+
+.history-button{
+    background-image: url(../assets/history.svg);
+}

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang='pt-BR'>
+
+<head>
+  <meta charset='UTF-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>ChamaGas</title>
+  <link rel='preconnect' href='https://fonts.gstatic.com'>
+  <link href='https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap' rel='stylesheet'>
+  <link rel='stylesheet' href='./css/style.css'>
+  <link rel='stylesheet' href='./css/requests.css'>
+  <link rel='stylesheet' href='./css/customers.css'>
+  <link rel='stylesheet' href='./css/stock.css'>
+  <link rel='stylesheet' href='./css/cash.css'>
+  <link rel='stylesheet' href='./css/management.css'>
+  <link rel='stylesheet' href='./css/popups.css'>
+  <link rel="stylesheet" href="./css/forwards.css">
+  <link rel="stylesheet" href="./css/fixed-buttons.css">
+</head>
+
+<body>
+
+  <div class='menu'>
+    <nav>
+      <ul>
+        <li id='btn_requests'>Pedidos</li>
+        <li id='btn_forwards'>Fiados</li>
+        <li id='btn_customers'>Clientes</li>
+        <li id='btn_stock'>Estoque</li>
+        <li id='btn_cash'>Caixa</li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class='content'>
+
+    <div id='page_requests'>
+      <div id='page_requests_container'>Carregando...</div>
+      <div class="fixed-buttons-container" id="requests-fixed-buttons">
+        <!-- <div class='fixed-button history-button' id='history-button-requests' title="Histórico de pedidos"></div> -->
+        <div class='fixed-button done-button' id='done-button-requests' title="Pedidos entregues hoje"></div>
+        <div class='add-button fixed-button' id='add-button-requests' title="criar pedido"></div>
+      </div>
+    </div>
+
+    <div id='page_forwards'>
+      <div class="search_bar">
+        <input id="forwards_search_bar" type="text" placeholder="Digite aqui para pesquisar">
+      </div>
+      <div id='page_forwards_container'></div>
+    </div>
+
+    <div id='page_customers'>
+      <div id='page_customers_container'>page_customers</div>
+      <div class="fixed-buttons-container" id="requests-fixed-buttons">
+        <div class='add-button fixed-button' title="adicionar cliente"></div>
+      </div>
+    </div>
+
+    <div id='page_stock'>
+      <div id='page_stock_container'>
+        <div class='icon_container' title="gás cheio">
+          <div class='icon' id='gas_icon'></div>
+          <div class='icon_number' id='gas_number'></div>
+        </div>
+        <div class='icon_container' title="agua cheia">
+          <div class='icon' id='water_icon'></div>
+          <div class='icon_number' id='water_number'></div>
+        </div>
+        <div class='icon_container' title="gás vazio">
+          <div class='icon' id='canister_icon'></div>
+          <div class='icon_number' id='gas_empty_number'></div>
+        </div>
+        <div class='icon_container' title="agua vazia">
+          <div class='icon' id='gallon_icon'></div>
+          <div class='icon_number' id='water_empty_number'></div>
+        </div>
+      </div>
+    </div>
+
+    <div id='page_cash'>
+      <div id='page_cash_container'>
+          <div class='icon_container_cash'>
+            <img src="./assets/money.svg" alt="Valor a vista" class='cash_icon' id='money_icon' title="Valor a vista">
+            <div class='icon_number' id='money_number'></div>
+          </div>
+          <div class='icon_container_cash'>
+            <img src="./assets/card.svg" alt="Valor no cartão" class='cash_icon' id='card_icon' title="Valor no cartão">
+            <div class='icon_number' id='card_number'></div>
+          </div>
+          <div class='icon_container_cash'>
+            <img src="./assets/pix.svg" alt="Valor no pix" class='cash_icon' id='pix_icon' title="Valor no pix">
+            <div class='icon_number' id='pix_number'></div>
+          </div>
+          <div class='icon_container_cash'>
+            <img src="./assets/forward.svg" alt="Valor a prazo" class='cash_icon' id='forward_icon' title="Valor a prazo">
+            <div class='icon_number' id='forward_number'></div>
+          </div>
+          <div class='icon_container_cash'>
+            <img src="./assets/total.svg" alt="Valor total" class='cash_icon' id='total_icon' title="Valor total">
+            <div class='icon_number' id='total_number'></div>
+          </div>
+          <div class='icon_container_cash'>
+            <img src="./assets/money_off.svg" alt="Despesas" class='cash_icon' id='expense_icon' title="Despesas">
+            <div class='icon_number' id='expense_number'></div>
+          </div>
+      </div>
+      <h1 id="cash_day" class="text-base"></h1>
+      <div class="fixed-buttons-container" id="cash-fixed-buttons">
+        <div class='fixed-button history-button' id='history-button-cash' title="histórico do caixa"></div>
+        <div class='add-button fixed-button' id='add-button-cash' title="lançar despesa"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class='popup' id='new-request-popup'>        
+    <div class='popup-container'>
+
+      <label for='select-clients'>Cliente</label>
+      <select name='select-clients' id='select-clients'>
+        <option value='' selected>Sem cadastro</option>
+      </select>
+
+      <label for='input-request-address'>Endereço</label>
+      <input type='text' id='input-request-address' name='input-address' placeholder="Rua Fulano de tal, N° 000, Centro">
+
+      <label for='input-request-telephone'>Telefone</label>
+      <input type='text' id='input-request-telephone' name='input-telephone' placeholder="(63) 12345-6789">
+      
+      <label for="input-request-products">Produtos</label>
+      <div class="horizontal-inputs">
+        <select name="input-request-products" id="input-request-products">
+          <option  value="p13" selected>Recarga P13</option>
+          <option value="water">Recarga Água</option>
+          <option value="p13Empty">Botijão vazio</option>
+          <option value="waterEmpty">Galão vazio</option>
+        </select>
+        <input type='number' id='input-amount-request-products' name='input-amount-request-products' placeholder="0">
+      </div>
+      <div class="horizontal-inputs">
+      <select name="input-request-products2" id="input-request-products2">
+        <option value="p13">Recarga P13</option>
+        <option value="water" selected>Recarga Água</option>
+        <option value="p13Empty">Botijão vazio</option>
+        <option value="waterEmpty">Galão vazio</option>
+      </select>
+      <input type='number' id='input-amount-request-products2' name='input-amount-request-products2' placeholder="0">
+      </div>
+
+      <label for="input-value">Pagamento</label>
+      <div class="horizontal-inputs">
+        <label for='input-value'>R$</label>
+        <input type='number' id='input-value' name='input-value' placeholder="00.00">
+
+        <select name="input-op" id="input-op">
+          <option value="incash">A vista</option>
+          <option value="card">Cartão</option>
+          <option value="pix">PIX</option>
+          <option value="forward">Pagar depois</option>
+        </select>
+      </div>
+
+      <button id='new-popup-button-request'>Novo</button>
+
+      <button id='close-popup-button-request' class="close-popup-button">X</button>
+    </div>
+  </div>
+
+  <div class='popup' id='new-client-popup'>
+    <div class='popup-container'>
+
+      <label for='input-name'>Nome</label>
+      <input type='text' id='input-client-name' name='input-name'>
+
+      <label for='input-address'>Endereço</label>
+      <input type='text' id='input-client-address' name='input-address'>
+
+      <label for='input-phone'>Telefone</label>
+      <input type='text ' id='input-client-phone' name='input-phone'>
+
+      <label for='input-birthday'>Aniversário</label>
+      <input type='number' id='input-client-birthday' name='input-birthday'>
+
+      <button id='new-popup-button-client'>Novo</button>
+
+      <button id='close-popup-button-client' class="close-popup-button">X</button>
+    </div>
+  </div>
+
+  <div class='popup' id='new-forward-payment'>
+    <div class='popup-container' id="new-forward-payment-popup-container">
+      
+      <label for='input-forward-payment-value'>Valor</label>
+      <input type='number' id='input-forward-payment-value' name='input-forward-payment-value'>
+
+      <label for="input-forward-payment-op">Pagamento</label>
+      <select name="input-forward-payment-op" id="input-forward-payment-op">
+        <option value="incash">A vista</option>
+        <option value="card">Cartão</option>
+        <option value="pix">PIX</option>
+      </select>
+
+      <button id='forward-payment-new-button'>Pagar</button>
+
+      <button id='forward-payment-close-popup-button' class="close-popup-button">X</button>
+    </div>
+  </div>
+
+  <div class='popup' id='new-expense-popup'>
+    <div class='popup-container' id="new-expense-popup-container">
+      
+      <label for='input-expense-value'>Valor</label>
+      <input type='number' id='input-expense-value' name='input-expense-value'>
+
+      <label for="input-expense-item">Item</label>
+      <select name="input-expense-item" id="input-expense-item">
+        <option value="gasolina">Gasolina</option>
+        <option value="gas">Compra de gás</option>
+        <option value="agua">Compra de água</option>
+        <option value="outro">Outro</option>
+      </select>
+
+      <label for='input-expense-notes'>Descrição</label>
+      <input type="text" id='input-expense-notes' name='input-expense-notes'>
+
+      <button id='new-expense-button'>Lançar despesa</button>
+      <button id='close-expense-popup-button' class="close-popup-button">X</button>
+    </div>
+  </div>
+
+  <div class="popup" id="date-picker-popup">
+    <div class="popup-container" id="date-picker-popup-container">
+      <label for="date-picker">Escolha uma data</label>
+      <input type="date" id="date-picker" name="date-picker">
+
+      <button id='date-picker-button'>Ok</button>
+      <button id='close-date-picker-popup-button' class="close-popup-button">X</button>
+    </div>
+  </div>
+
+  <script src='https://www.gstatic.com/firebasejs/8.6.3/firebase-app.js'></script>
+  <script src='https://www.gstatic.com/firebasejs/8.6.3/firebase-analytics.js'></script>
+  <script src='https://www.gstatic.com/firebasejs/8.5.0/firebase-firestore.js'></script>
+  <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+
+  <script src='./js/model.js'></script>
+  <script src='./js/view.js'></script>
+  <script src='./js/controller.js'></script>
+</body>
+
+</html>

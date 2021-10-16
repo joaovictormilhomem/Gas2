@@ -1,0 +1,43 @@
+#page_cash{
+    padding: 10px;
+    height: 100vh;
+    display: none;
+}
+
+#page_cash_container{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: 5% auto;
+}
+
+#page_cash_container > div{
+    flex: 1 1 200px;
+    margin: 30px;
+}
+
+.icon_container_cash{
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cash_icon{
+    width: 150px;
+}
+
+#cash_day{
+    background-image: none;
+    color: black;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 400;
+    position: fixed;
+    right: 175px;
+    bottom: 25px;
+    user-select: none;
+    display: block;
+}
