@@ -281,7 +281,7 @@ function countProps(obj) {
     return number;
 }
 
-function createItemNotes(request) {
+function createItemNotes(request, days) {
     let pluralTranslations = {
         p13: ' recargas de gás',
         water: ' recargas de água',
@@ -303,18 +303,23 @@ function createItemNotes(request) {
         if (forinIndex > 1 && numberOfItems > 1) notes = notes  + ' e ';
 
         if (items[item] > 1)
-            notes = notes + items[item] + pluralTranslations[item];
+            notes += items[item] + pluralTranslations[item];
         else
-            notes = notes + items[item] + singularTranslations[item];
+            notes += items[item] + singularTranslations[item];
 
         forinIndex++;
     }
 
-    notes = notes +' por '+ request.data().value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+    notes +=' por '+ request.data().value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
 
-    if (request.data().paidvalue > 0 && request.data().paidvalue !== request.data().value)
-        notes = notes + '. Valor restante: ' + (request.data().value - request.data().paidvalue).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
-
+    if(days){
+        if(days < 999)
+            notes += ` a ${days} dia(s).`
+            
+        if (request.data().paidvalue > 0 && request.data().paidvalue !== request.data().value)
+            notes += '. Valor restante: ' + (request.data().value - request.data().paidvalue).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+    }
+    
     return notes;
 }
 
@@ -377,9 +382,10 @@ function clearForwards() {
     startAddButtons();
 }
 
-function renderForward(forward) {
+function renderForward(forward, days) {
     let newForward = document.createElement('div');
     newForward.classList.add('forward');
+    days > 29 && newForward.classList.add('forward_30');
     newForward.setAttribute('data-id', forward.id);
     newForward.setAttribute('data-collection', forward.ref.parent.id);
     newForward.setAttribute('data-status', forward.data().status);
@@ -392,7 +398,7 @@ function renderForward(forward) {
 
     let newForwardAddress       = document.createElement('h1');
     newForwardAddress.innerHTML = forward.data().address;
-    newForwardAddress.classList.add('request_address');
+    newForwardAddress.classList.add('forward_address');
 
     let newForwardTelephone       = document.createElement('h1');
     newForwardTelephone.innerHTML = forward.data().telephone;
@@ -405,7 +411,7 @@ function renderForward(forward) {
 
     let newForwardNotes = document.createElement('h2');
     newForwardNotes.classList.add('forward_notes');
-    newForwardNotes.innerHTML = createItemNotes(forward);
+    newForwardNotes.innerHTML = createItemNotes(forward, days);
 
     newForward.appendChild(newForwardAddress);
     newForward.appendChild(newForwardTelephone);

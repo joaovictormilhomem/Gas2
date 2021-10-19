@@ -37,9 +37,13 @@
     margin-bottom: 20px;
 }
 .forward:hover{
-    border-radius: 20px;
+    border-radius: 10px;
     background-color: rgb(74, 105, 189, 0.1);
     transition: ease-in-out 0.2s background-color,border-radius;
+}
+
+.forward_30{
+    color: rgb(187, 37, 37);
 }
 
 .forward_address{

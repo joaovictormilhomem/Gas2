@@ -6,11 +6,11 @@ let cashDay;
 let selectedCash = {};
 
 function handleDeleteRequest(requestElement) {
-    let id         = requestElement.getAttribute('data-id');
+    let id = requestElement.getAttribute('data-id');
     let collection = requestElement.getAttribute('data-collection');
-    let p13        = parseInt(requestElement.getAttribute('data-p13'));
-    let water      = parseInt(requestElement.getAttribute('data-water'));
-    let p13Empty   = parseInt(requestElement.getAttribute('data-p13Empty'));
+    let p13 = parseInt(requestElement.getAttribute('data-p13'));
+    let water = parseInt(requestElement.getAttribute('data-water'));
+    let p13Empty = parseInt(requestElement.getAttribute('data-p13Empty'));
     let waterEmpty = parseInt(requestElement.getAttribute('data-waterEmpty'));
 
     deleteRequest(id, collection);
@@ -22,7 +22,7 @@ function handleRenderRequests() {
         let requestFinishedTodayList = requestList.filter(isARequestFinishedToday);
         requestFinishedTodayList.forEach(request => renderRequest(request));
     }
-    else{
+    else {
         let requestsNotDeletedOrFinished = requestList.filter(wasNotDeletedOrFinished);
         requestsNotDeletedOrFinished.forEach(request => renderRequest(request));
     }
@@ -31,7 +31,7 @@ function handleRenderRequests() {
 function handleRenderForwards(forwards) {
     let requestsNotDeletedAndIsFinished = forwards.filter(wasNotDeletedAndIsFinished);
 
-    let requestsNotDeletedAndIsFinishedAndSorted = requestsNotDeletedAndIsFinished.sort( (a, b) => {
+    let requestsNotDeletedAndIsFinishedAndSorted = requestsNotDeletedAndIsFinished.sort((a, b) => {
         if (a.data().startTime < b.data().startTime)
             return -1;
         else if (a.data().startTime > b.data().startTime)
@@ -40,11 +40,16 @@ function handleRenderForwards(forwards) {
             return 0;
     });
 
-    requestsNotDeletedAndIsFinishedAndSorted.forEach(forward => renderForward(forward));
+    let now = new Date().getTime();
+    requestsNotDeletedAndIsFinishedAndSorted.forEach(forward => {
+        let difference = Math.abs(now - forward.data().startTime);
+        let days = Math.ceil(difference / (1000 * 60 * 60 * 24));
+        renderForward(forward, days);
+    });
 }
 
-function handleNewExpenseClick(value, item, notes){
-    if (value !== '' && value >= 0.1 && !isNaN(value)){
+function handleNewExpenseClick(value, item, notes) {
+    if (value !== '' && value >= 0.1 && !isNaN(value)) {
         createExpense(value, item, notes);
         updateExpenseCashValue(value + atualCash.expense);
     }
@@ -53,8 +58,8 @@ function handleNewExpenseClick(value, item, notes){
 
 function handleCreateRequest(client, address, telephone, items, value, op) {
     items = deleteNaNAndDuplicatedProps(items);
-    if(isFilled([address, op, items], value)) {
-        if(checkIfThereIsStock(items)) {
+    if (isFilled([address, op, items], value)) {
+        if (checkIfThereIsStock(items)) {
             createRequest(client, address, telephone, items, value, op);
             handleUpdateStock(items.p13, items.water, items.p13Empty, items.waterEmpty, true);
             return 0; // Tudo certo
@@ -67,15 +72,15 @@ function handleCreateRequest(client, address, telephone, items, value, op) {
 }
 
 function handleChangeRequestStatus(requestElement) {
-    let id         = requestElement.getAttribute('data-id');
+    let id = requestElement.getAttribute('data-id');
     let collection = requestElement.getAttribute('data-collection');
-    let status     = requestElement.getAttribute('data-status');
-    let value      = parseFloat(requestElement.getAttribute('data-value'));
-    let op         = requestElement.getAttribute('data-cash-op');
+    let status = requestElement.getAttribute('data-status');
+    let value = parseFloat(requestElement.getAttribute('data-value'));
+    let op = requestElement.getAttribute('data-cash-op');
 
-    if(status === 'waiting')
+    if (status === 'waiting')
         startRequest(id, collection);
-    else if(status === 'started'){
+    else if (status === 'started') {
         handleUpdateCash(value, op);
         finishRequest(id, collection);
     }
@@ -86,7 +91,7 @@ function handlePayForward(valueToBePaid, paymentMethod, forward) {
     valueToBePaid = parseFloat(valueToBePaid);
     let finalValue = valueToBePaid + parseFloat(forward.data().paidvalue);
 
-    if (valueToBePaid > 0 && valueToBePaid <= remainingValue && paymentMethod !== ''){
+    if (valueToBePaid > 0 && valueToBePaid <= remainingValue && paymentMethod !== '') {
         changeForwardPaidValue(forward.id, finalValue);
         createBackward(forward.id, valueToBePaid, paymentMethod);
         handleUpdateCash(valueToBePaid, paymentMethod);
@@ -97,28 +102,28 @@ function handlePayForward(valueToBePaid, paymentMethod, forward) {
 
 async function handleUpdateStock(p13, water, p13Empty, waterEmpty, isToDecrease) {
     if (isToDecrease) {
-        if(p13 > 0){
+        if (p13 > 0) {
             await updateStockValue('p13', atualStock.p13 - p13);
             await updateStockValue('p13Empty', atualStock.p13Empty + p13);
         }
-        if(water > 0){
+        if (water > 0) {
             await updateStockValue('water', atualStock.water - water);
             await updateStockValue('waterEmpty', atualStock.waterEmpty + water);
         }
-        if(p13Empty > 0) await updateStockValue('p13Empty', atualStock.p13Empty - p13Empty);
-        if(waterEmpty > 0) await updateStockValue('waterEmpty', atualStock.waterEmpty - waterEmpty);
+        if (p13Empty > 0) await updateStockValue('p13Empty', atualStock.p13Empty - p13Empty);
+        if (waterEmpty > 0) await updateStockValue('waterEmpty', atualStock.waterEmpty - waterEmpty);
     }
-    else{
-        if(p13 > 0){
+    else {
+        if (p13 > 0) {
             await updateStockValue('p13', atualStock.p13 + p13);
             await updateStockValue('p13Empty', atualStock.p13Empty - p13);
         }
-        if(water > 0){
+        if (water > 0) {
             await updateStockValue('water', atualStock.water + water);
             await updateStockValue('waterEmpty', atualStock.waterEmpty - water);
         }
-        if(p13Empty > 0) await updateStockValue('p13Empty', atualStock.p13Empty + p13Empty);
-        if(waterEmpty > 0) await updateStockValue('waterEmpty', atualStock.waterEmpty + waterEmpty);
+        if (p13Empty > 0) await updateStockValue('p13Empty', atualStock.p13Empty + p13Empty);
+        if (waterEmpty > 0) await updateStockValue('waterEmpty', atualStock.waterEmpty + waterEmpty);
     }
 }
 
@@ -141,7 +146,7 @@ function startSearch() {
             let address = request.data().address.toLowerCase();
             return address.includes(value);
         })
-        
+
         clearForwards();
         handleRenderForwards(forwardsList);
     }
@@ -158,7 +163,7 @@ async function start() {
     startSearch();
 
     let autoRenderRequestsAndForwards = setInterval(() => {
-        if(requestListCopy !== requestList){
+        if (requestListCopy !== requestList) {
             requestListCopy = requestList;
             clearRequestsAndForwards();
             handleRenderRequests();
