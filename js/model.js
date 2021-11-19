@@ -28,7 +28,7 @@ function startFirebase() {
             appId: "1:940440141576:web:f56f9802ada74cd7d8b6bd"
         };
 
-        firebase.initializeApp(firebaseConfigTest);
+        firebase.initializeApp(firebaseConfig);
         firebase.analytics();
         
         db   = firebase.firestore()

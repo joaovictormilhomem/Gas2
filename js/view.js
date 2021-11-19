@@ -326,8 +326,8 @@ function createItemNotes(request, days) {
         if (request.data().paidvalue > 0 && request.data().paidvalue !== request.data().value)
             notes += '. Valor restante: ' + (request.data().value - request.data().paidvalue).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
     }
-
-    notes += opTranslations[request.data().op];
+    else 
+        notes += opTranslations[request.data().op];
 
     return notes;
 }
