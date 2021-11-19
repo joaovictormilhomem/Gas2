@@ -1,25 +1,25 @@
 const pageRequestsContainer = document.getElementById('page_requests_container');
 const pageForwardsContainer = document.getElementById('page_forwards_container');
-const pageRequests  = document.getElementById('page_requests');
-const pageForwards  = document.getElementById('page_forwards');
+const pageRequests = document.getElementById('page_requests');
+const pageForwards = document.getElementById('page_forwards');
 const pageCustomers = document.getElementById('page_customers');
-const pageStock     = document.getElementById('page_stock');
-const pageCash      = document.getElementById('page_cash');
-const pages         = [pageRequests, pageForwards, pageCustomers, pageStock, pageCash];
-const btnRequests   = document.getElementById('btn_requests');
-const btnForwards   = document.getElementById('btn_forwards');
-const btnCustomers  = document.getElementById('btn_customers');
-const btnStock      = document.getElementById('btn_stock');
-const btnCash       = document.getElementById('btn_cash');
-const addButtons    = document.getElementsByClassName('add-button');
+const pageStock = document.getElementById('page_stock');
+const pageCash = document.getElementById('page_cash');
+const pages = [pageRequests, pageForwards, pageCustomers, pageStock, pageCash];
+const btnRequests = document.getElementById('btn_requests');
+const btnForwards = document.getElementById('btn_forwards');
+const btnCustomers = document.getElementById('btn_customers');
+const btnStock = document.getElementById('btn_stock');
+const btnCash = document.getElementById('btn_cash');
+const addButtons = document.getElementsByClassName('add-button');
 
 const historyBtnRequests = document.getElementById('history-button-requests');
-const historyBtnCash     = document.getElementById('history-button-cash');
-const doneBtnRequests    = document.getElementById('done-button-requests');
+const historyBtnCash = document.getElementById('history-button-cash');
+const doneBtnRequests = document.getElementById('done-button-requests');
 
 let activePage = 1;
 
-    // Navegação
+// Navegação
 
 btnRequests.onclick = () => {
     pages.forEach(page => page.style.display = 'none');
@@ -50,7 +50,7 @@ btnCash.onclick = () => {
     activePage = 4;
 }
 
-    // Show/Close
+// Show/Close
 
 function showNewExpensePopup() {
     let newExpensePopup = document.getElementById('new-expense-popup');
@@ -58,13 +58,13 @@ function showNewExpensePopup() {
 }
 
 function showNewRequestPopup() {
-    const newReqPopup         = document.getElementById('new-request-popup');
+    const newReqPopup = document.getElementById('new-request-popup');
     newReqPopup.style.display = 'flex';
 }
 
 function showNewClientPopup() {
-    const newPopup    = document.getElementById('new-client-popup');
-    const newButton   = document.getElementById('new-popup-button-client');
+    const newPopup = document.getElementById('new-client-popup');
+    const newButton = document.getElementById('new-popup-button-client');
     const closeButton = document.getElementById('close-popup-button-client');
 
     newPopup.style.display = 'flex';
@@ -72,7 +72,7 @@ function showNewClientPopup() {
     newButton.onclick = () => {
         let client = newPopup.children[0].children[1].value;
         let address = newPopup.children[0].children[3].value;
-        let itens = {p13: newPopup.children[0].children[5].value, water: newPopup.children[0].children[7].value};
+        let itens = { p13: newPopup.children[0].children[5].value, water: newPopup.children[0].children[7].value };
         handleNewClientClick(client, address, itens);
         closeNewClientPopup();
     }
@@ -83,21 +83,21 @@ function closeNewExpensePopup() {
     newExpensePopup.style.display = 'none';
 }
 
-function closeNewRequestPopup(){
-    const addressElement   = document.getElementById('input-request-address');
-    const valueElement     = document.getElementById('input-value');
-    const opElement        = document.getElementById('input-op');
+function closeNewRequestPopup() {
+    const addressElement = document.getElementById('input-request-address');
+    const valueElement = document.getElementById('input-value');
+    const opElement = document.getElementById('input-op');
     const telephoneElement = document.getElementById('input-request-telephone');
-    const newPopup         = document.getElementById('new-request-popup');    const reqProductsElement        = document.getElementById('input-request-products');
-    const amountReqProductsElement  = document.getElementById('input-amount-request-products');
+    const newPopup = document.getElementById('new-request-popup'); const reqProductsElement = document.getElementById('input-request-products');
+    const amountReqProductsElement = document.getElementById('input-amount-request-products');
     const amountReqProductsElement2 = document.getElementById('input-amount-request-products2');
-    
-    
+
+
     deleteFormFields([addressElement, amountReqProductsElement, amountReqProductsElement2, valueElement, telephoneElement, opElement]);
     newPopup.style.display = 'none';
 }
 
-function closeNewClientPopup(){
+function closeNewClientPopup() {
     const newPopup = document.getElementById('new-client-popup');
     newPopup.style.display = 'none';
 }
@@ -105,14 +105,14 @@ function closeNewClientPopup(){
 function closeNewForwardPaymentPopup() {
     const newForwardPaymentPopup = document.getElementById('new-forward-payment');
     const valueElement = document.getElementById('input-forward-payment-value');
-    const opElement    = document.getElementById('input-forward-payment-op');
+    const opElement = document.getElementById('input-forward-payment-op');
 
     deleteFormFields([valueElement, opElement]);
     newForwardPaymentPopup.style.display = 'none';
 }
 
 function closeDatePickerPopup() {
-    let datePickerPopup  = document.getElementById('date-picker-popup');
+    let datePickerPopup = document.getElementById('date-picker-popup');
     datePickerPopup.style.display = 'none';
 }
 
@@ -124,39 +124,39 @@ function showCashDay() {
         cashDayElement.innerHTML = '';
 }
 
-    // Outros
+// Outros
 
 function deleteFormFields(fields) {
     fields.forEach(field => field.value = '');
 }
 
 function startNewRequestPopup() {
-    const newButton                 = document.getElementById('new-popup-button-request');
-    const closeButton               = document.getElementById('close-popup-button-request');
-    const clientElement             = document.getElementById('select-clients');
-    const addressElement            = document.getElementById('input-request-address');
-    const telephoneElement          = document.getElementById('input-request-telephone');
-    const reqProductsElement        = document.getElementById('input-request-products');
-    const reqProducts2Element       = document.getElementById('input-request-products2');
-    const amountReqProductsElement  = document.getElementById('input-amount-request-products');
+    const newButton = document.getElementById('new-popup-button-request');
+    const closeButton = document.getElementById('close-popup-button-request');
+    const clientElement = document.getElementById('select-clients');
+    const addressElement = document.getElementById('input-request-address');
+    const telephoneElement = document.getElementById('input-request-telephone');
+    const reqProductsElement = document.getElementById('input-request-products');
+    const reqProducts2Element = document.getElementById('input-request-products2');
+    const amountReqProductsElement = document.getElementById('input-amount-request-products');
     const amountReqProductsElement2 = document.getElementById('input-amount-request-products2');
-    const valueElement              = document.getElementById('input-value');
-    const opElement                 = document.getElementById('input-op');
+    const valueElement = document.getElementById('input-value');
+    const opElement = document.getElementById('input-op');
 
     closeButton.onclick = () => closeNewRequestPopup();
     newButton.onclick = () => {
-        let client    = clientElement.value;
-        let address   = addressElement.value;
+        let client = clientElement.value;
+        let address = addressElement.value;
         let telephone = telephoneElement.value;
-        let items     = {};
-        let value     = parseFloat(valueElement.value);
-        let op        = opElement.value;
+        let items = {};
+        let value = parseFloat(valueElement.value);
+        let op = opElement.value;
 
         if (amountReqProductsElement.value > 0 || amountReqProductsElement2.value > 0)
-            items = {[reqProductsElement.value]: parseInt(amountReqProductsElement.value), [reqProducts2Element.value]: parseInt(amountReqProductsElement2.value)};
-        
+            items = { [reqProductsElement.value]: parseInt(amountReqProductsElement.value), [reqProducts2Element.value]: parseInt(amountReqProductsElement2.value) };
+
         let response = handleCreateRequest(client, address, telephone, items, value, op);
-        
+
         switch (response) {
             case 0: closeNewRequestPopup(); clientElement.value = ''; break;
             case 1: alert('preencha todos os campos corretamente'); break;
@@ -168,14 +168,14 @@ function startNewRequestPopup() {
 
 function startNewClientPopup() {
     const newPopup = document.getElementById('new-client-popup');
-    const newButton   = newPopup.children[0].children[8];
+    const newButton = newPopup.children[0].children[8];
     const closeButton = newPopup.children[0].children[9];
 
     closeButton.onclick = () => closeNewClientPopup();
     newButton.onclick = () => {
         let client = newPopup.children[0].children[1].value;
         let address = newPopup.children[0].children[3].value;
-        let itens = {p13: newPopup.children[0].children[5].value, water: newPopup.children[0].children[7].value};
+        let itens = { p13: newPopup.children[0].children[5].value, water: newPopup.children[0].children[7].value };
         handleNewClientClick(client, address, itens);
         closeNewClientPopup();
     }
@@ -183,13 +183,13 @@ function startNewClientPopup() {
 
 function startNewExpensePopup() {
     let newExpenseCloseBtn = document.getElementById('close-expense-popup-button');
-    let newExpenseBtn      = document.getElementById('new-expense-button');
+    let newExpenseBtn = document.getElementById('new-expense-button');
 
     newExpenseCloseBtn.onclick = () => closeNewExpensePopup();
 
     newExpenseBtn.onclick = () => {
         let valueElement = document.getElementById('input-expense-value');
-        let itemElement  = document.getElementById('input-expense-item');
+        let itemElement = document.getElementById('input-expense-item');
         let notesElement = document.getElementById('input-expense-notes');
 
         let response = handleNewExpenseClick(parseFloat(valueElement.value), itemElement.value, notesElement.value);
@@ -203,10 +203,10 @@ function startNewExpensePopup() {
 }
 
 function showAndStartDatePickerPopup() {
-    let datePickerPopup  = document.getElementById('date-picker-popup');
-    let datePickerBtn           = document.getElementById('date-picker-button');
+    let datePickerPopup = document.getElementById('date-picker-popup');
+    let datePickerBtn = document.getElementById('date-picker-button');
     let closeDatePickerPopupBtn = document.getElementById('close-date-picker-popup-button');
-    let datePicker              = document.getElementById('date-picker');
+    let datePicker = document.getElementById('date-picker');
 
     closeDatePickerPopupBtn.onclick = () => closeDatePickerPopup();
     datePickerBtn.onclick = () => {
@@ -221,17 +221,17 @@ function showAndStartDatePickerPopup() {
 
 function showAndStartNewForwardPaymentPopup(forward) {
     const newForwardPaymentPopup = document.getElementById('new-forward-payment');
-    const newButton    = document.getElementById('forward-payment-new-button');
-    const closeButton  = document.getElementById('forward-payment-close-popup-button');
+    const newButton = document.getElementById('forward-payment-new-button');
+    const closeButton = document.getElementById('forward-payment-close-popup-button');
     const valueElement = document.getElementById('input-forward-payment-value');
-    const opElement    = document.getElementById('input-forward-payment-op');
+    const opElement = document.getElementById('input-forward-payment-op');
 
     closeButton.onclick = () => closeNewForwardPaymentPopup();
-    newButton.onclick   = () => {
-        let value    = valueElement.value;
-        let op       = opElement.value;
+    newButton.onclick = () => {
+        let value = valueElement.value;
+        let op = opElement.value;
         let response = handlePayForward(value, op, forward);
-        
+
         if (response === 0) closeNewForwardPaymentPopup();
         else
             switch (response) {
@@ -239,7 +239,7 @@ function showAndStartNewForwardPaymentPopup(forward) {
                 default: break;
             }
     }
-    newForwardPaymentPopup.style.display = 'flex'; 
+    newForwardPaymentPopup.style.display = 'flex';
 }
 
 function startAddButtons() {
@@ -254,19 +254,19 @@ function renderClient(client) {
     newClient.setAttribute('data-id', client.id);
     newClient.setAttribute('data-collection', client.ref.parent.id);
 
-    let newClientName       = document.createElement('h1');
+    let newClientName = document.createElement('h1');
     newClientName.innerHTML = request.data().address;
     newClientName.classList.add('request_address');
 
-    let newDeleteClient       = document.createElement('p');
+    let newDeleteClient = document.createElement('p');
     newDeleteClient.innerHTML = 'Apagar';
-    newDeleteClient.onclick   = handleDeleteRequest;
+    newDeleteClient.onclick = handleDeleteRequest;
     newDeleteClient.classList.add('deny-request', 'text-base');
 
     let newRequestItems = document.createElement('h2');
     newRequestItems.classList.add('request_items');
     newRequestItems.innerHTML = createItemNotes(request);
-    
+
     newRequest.appendChild(newClientName);
     newRequest.appendChild(newDeleteClient);
     newRequest.appendChild(newRequestItems);
@@ -294,13 +294,20 @@ function createItemNotes(request, days) {
         p13Empty: ' butijão de gás vazio',
         waterEmpty: ' galão de água vazio'
     }
+    let opTranslations = {
+        incash: ' à vista',
+        card: ' no cartão',
+        pix: ' no Pix',
+        forward: ' à prazo'
+    }
+
     let items = request.data().items;
     let numberOfItems = countProps(items);
     let notes = '';
     let forinIndex = 1;
 
     for (const item in items) {
-        if (forinIndex > 1 && numberOfItems > 1) notes = notes  + ' e ';
+        if (forinIndex > 1 && numberOfItems > 1) notes = notes + ' e ';
 
         if (items[item] > 1)
             notes += items[item] + pluralTranslations[item];
@@ -310,16 +317,18 @@ function createItemNotes(request, days) {
         forinIndex++;
     }
 
-    notes +=' por '+ request.data().value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+    notes += ' por ' + request.data().value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
 
-    if(days){
-        if(days < 999)
+    if (days) {
+        if (days < 999)
             notes += ` a ${days} dia(s).`
-            
+
         if (request.data().paidvalue > 0 && request.data().paidvalue !== request.data().value)
-            notes += '. Valor restante: ' + (request.data().value - request.data().paidvalue).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+            notes += '. Valor restante: ' + (request.data().value - request.data().paidvalue).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
     }
-    
+
+    notes += opTranslations[request.data().op];
+
     return notes;
 }
 
@@ -336,23 +345,27 @@ function renderRequest(request) {
     newRequest.setAttribute('data-value', request.data().value);
     newRequest.setAttribute('data-cash-op', request.data().op);
     newRequest.setAttribute('data-telephone', request.data().telephone);
-    newRequest.setAttribute('title', request.data().op);
 
-    let newRequestStatus     = document.createElement('div');
-    if (request.data().status !== 'finished') newRequestStatus.ondblclick = () => {handleChangeRequestStatus(newRequest)};
+    let newRequestStatus = document.createElement('div');
+    if (request.data().status !== 'finished') newRequestStatus.ondblclick = () => { handleChangeRequestStatus(newRequest) };
     newRequestStatus.classList.add('request_status');
-    newRequestStatus.classList.add('request_status_'+request.data().status);
+    newRequestStatus.classList.add('request_status_' + request.data().status);
     newRequest.appendChild(newRequestStatus);
 
-    let newRequestAddress       = document.createElement('h1');
+    let newRequestAddress = document.createElement('h1');
     newRequestAddress.innerHTML = request.data().address;
     newRequestAddress.classList.add('request_address');
     newRequest.appendChild(newRequestAddress);
-    
+
+/*     let newRequestOp = document.createElement('h2');
+    newRequestOp.innerHTML = translateOp(request.data().op);
+    newRequestOp.classList.add('request_op');
+    newRequest.appendChild(newRequestOp); */
+
     if (request.data().status !== 'finished') {
-        let newDeleteRequest       = document.createElement('p');
+        let newDeleteRequest = document.createElement('p');
         newDeleteRequest.innerHTML = 'Apagar';
-        newDeleteRequest.ondblclick   = () => {handleDeleteRequest(newRequest)};
+        newDeleteRequest.ondblclick = () => { handleDeleteRequest(newRequest) };
         newDeleteRequest.classList.add('deny-request', 'text-base');
         newRequest.appendChild(newDeleteRequest);
     }
@@ -396,17 +409,17 @@ function renderForward(forward, days) {
     newForward.setAttribute('data-cash-op', forward.data().op);
     newForward.setAttribute('data-telephone', forward.data().telephone);
 
-    let newForwardAddress       = document.createElement('h1');
+    let newForwardAddress = document.createElement('h1');
     newForwardAddress.innerHTML = forward.data().address;
     newForwardAddress.classList.add('forward_address');
 
-    let newForwardTelephone       = document.createElement('h1');
+    let newForwardTelephone = document.createElement('h1');
     newForwardTelephone.innerHTML = forward.data().telephone;
     newForwardTelephone.classList.add('forward_telephone');
 
-    let newPayForward       = document.createElement('p');
+    let newPayForward = document.createElement('p');
     newPayForward.innerHTML = 'Pagar';
-    newPayForward.onclick   = () => {showAndStartNewForwardPaymentPopup(forward)};
+    newPayForward.onclick = () => { showAndStartNewForwardPaymentPopup(forward) };
     newPayForward.classList.add('pay_forward', 'text-base');
 
     let newForwardNotes = document.createElement('h2');
@@ -423,16 +436,16 @@ function renderForward(forward, days) {
 function formatNotes(request) {
     let notes;
 
-    if(request.data().items.p13 && request.data().items.water)
+    if (request.data().items.p13 && request.data().items.water)
         notes = request.data().items.p13 + ' gás P13 e ' + request.data().items.water + ' água';
-    else if(request.data().items.p13)
+    else if (request.data().items.p13)
         notes = request.data().items.p13 + ' gás P13 ';
-    else if(request.data().items.water)
+    else if (request.data().items.water)
         notes = request.data().items.water + ' águas ';
 
-    notes = notes +'por '+ request.data().value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+    notes = notes + 'por ' + request.data().value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
     if (request.data().paidvalue > 0)
-        notes = notes + '. Valor restante: ' + (request.data().value - request.data().paidvalue).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+        notes = notes + '. Valor restante: ' + (request.data().value - request.data().paidvalue).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
 
     return notes;
 }
@@ -442,41 +455,41 @@ function formatDateOfDatePicker(date) {
     if (date[8] == 0)
         formatedDate = date[9];
     else
-        formatedDate = date[8]+date[9];
+        formatedDate = date[8] + date[9];
 
     if (date[5] == 0)
-        formatedDate = formatedDate + date[7]+date[6]+date[4]+date[0]+date[1]+date[2]+date[3];
+        formatedDate = formatedDate + date[7] + date[6] + date[4] + date[0] + date[1] + date[2] + date[3];
     else
-        formatedDate = formatedDate + date[7]+date[5]+date[6]+date[4]+date[0]+date[1]+date[2]+date[3];
+        formatedDate = formatedDate + date[7] + date[5] + date[6] + date[4] + date[0] + date[1] + date[2] + date[3];
 
     return formatedDate;
 }
 
 function renderStock(stock) {
-    let gasNumberElement         = document.getElementById('gas_number');
-    let waterNumberElement       = document.getElementById('water_number');
-    let gasEmptyNumberElement    = document.getElementById('gas_empty_number');
-    let waterEmptyNumberElement  = document.getElementById('water_empty_number');
-    gasNumberElement.innerHTML   = stock.p13;
+    let gasNumberElement = document.getElementById('gas_number');
+    let waterNumberElement = document.getElementById('water_number');
+    let gasEmptyNumberElement = document.getElementById('gas_empty_number');
+    let waterEmptyNumberElement = document.getElementById('water_empty_number');
+    gasNumberElement.innerHTML = stock.p13;
     waterNumberElement.innerHTML = stock.water;
     gasEmptyNumberElement.innerHTML = stock.p13Empty;
     waterEmptyNumberElement.innerHTML = stock.waterEmpty;
 }
 
 function renderCash(cash) {
-    let moneyNumberElement   = document.getElementById('money_number');
-    let cardNumberElement    = document.getElementById('card_number');
-    let pixNumberElement     = document.getElementById('pix_number');
+    let moneyNumberElement = document.getElementById('money_number');
+    let cardNumberElement = document.getElementById('card_number');
+    let pixNumberElement = document.getElementById('pix_number');
     let forwardNumberElement = document.getElementById('forward_number');
     let expenseNumberElement = document.getElementById('expense_number');
-    let totalNumberElement   = document.getElementById('total_number');
-    
-    moneyNumberElement.innerHTML   = cash.incashLessExpense.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
-    cardNumberElement.innerHTML    = cash.card.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
-    pixNumberElement.innerHTML     = cash.pix.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
-    forwardNumberElement.innerHTML = cash.forward.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
-    expenseNumberElement.innerHTML = cash.expense.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
-    totalNumberElement.innerHTML   = cash.total.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+    let totalNumberElement = document.getElementById('total_number');
+
+    moneyNumberElement.innerHTML = cash.incashLessExpense.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+    cardNumberElement.innerHTML = cash.card.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+    pixNumberElement.innerHTML = cash.pix.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+    forwardNumberElement.innerHTML = cash.forward.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+    expenseNumberElement.innerHTML = cash.expense.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+    totalNumberElement.innerHTML = cash.total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
 }
 
 doneBtnRequests.onclick = () => {
