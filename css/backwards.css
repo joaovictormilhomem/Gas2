@@ -3,3 +3,39 @@
   height: 100vh;
   display: none;
 }
+
+.backward{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  position: relative;
+  background-color: rgb(74, 105, 189, 0.1);
+  border-radius: 10px;
+  padding: 10px;
+}
+.backward:hover{
+  background-color: rgb(74, 105, 189, 0.3);
+  transition: ease-in-out 0.2s background-color,border-radius;
+}
+
+.backward_item{
+  font-size: 2rem;
+  font-weight: 500;
+  width: 100%;
+  margin-bottom: 5px;
+}
+.backward_item::first-letter{
+  text-transform: uppercase;
+}
+
+.backward_date{
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin-left: 5px;
+}
+
+.backward_value{
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin-left: 40px;
+}

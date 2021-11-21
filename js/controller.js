@@ -54,6 +54,14 @@ function handleRenderExpenses() {
     expenseList.forEach(expense => renderExpense(expense));
 }
 
+function handleRenderBackwards() {
+    
+    backwardList.forEach(backward => {
+        let requestPaid = getRequestAddress(backward.data().forward);
+        renderBackward(backward, requestPaid)
+    });
+}
+
 function handleNewExpenseClick(value, item, notes) {
     if (value !== '' && value >= 0.1 && !isNaN(value)) {
         createExpense(value, item, notes);
@@ -220,6 +228,14 @@ async function start() {
             expenseListCopy = expenseList;
             clearExpenses();
             handleRenderExpenses();
+        }
+    }, 500);
+    
+    let autoRenderBackwards = setInterval(() => {
+        if (backwardListCopy !== backwardList) {
+            backwardListCopy = backwardList;
+            clearBackwards();
+            handleRenderBackwards();
         }
     }, 500);
 }

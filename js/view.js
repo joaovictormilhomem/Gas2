@@ -301,6 +301,17 @@ function countProps(obj) {
     return number;
 }
 
+function translateOp(op) {
+    let opTranslations = {
+        incash: ' à vista',
+        card: ' no cartão',
+        pix: ' no Pix',
+        forward: ' à prazo'
+    }
+
+    return opTranslations[op];
+}
+
 function createItemNotes(request, days) {
     let pluralTranslations = {
         p13: ' recargas de gás',
@@ -313,12 +324,6 @@ function createItemNotes(request, days) {
         water: ' recarga de água',
         p13Empty: ' butijão de gás vazio',
         waterEmpty: ' galão de água vazio'
-    }
-    let opTranslations = {
-        incash: ' à vista',
-        card: ' no cartão',
-        pix: ' no Pix',
-        forward: ' à prazo'
     }
 
     let items = request.data().items;
@@ -347,7 +352,7 @@ function createItemNotes(request, days) {
             notes += '. Valor restante: ' + (request.data().value - request.data().paidvalue).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
     }
     else
-        notes += opTranslations[request.data().op];
+        notes += translateOp(request.data().op);
 
     return notes;
 }
@@ -412,6 +417,11 @@ function clearRequestsAndForwards() {
 
 function clearExpenses() {
     pageExpensesContainer.innerHTML = '';
+    startAddButtons();
+}
+
+function clearBackwards() {
+    pageBackwardsContainer.innerHTML = '';
     startAddButtons();
 }
 
@@ -544,6 +554,35 @@ function renderExpense(expense) {
     newExpense.appendChild(newExpenseValue);
 
     pageExpensesContainer.appendChild(newExpense);
+}
+
+function renderBackward(backward, requestPaid) {
+    const date = new Date(backward.data().when);
+    const formatedDate = date.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+    const dateAndHours = formatedDate + ' ' + date.getHours() + ':' + date.getMinutes();
+    
+    let newBackward = document.createElement('div');
+    newBackward.classList.add('backward');
+    newBackward.setAttribute('data-id', backward.id);
+    newBackward.setAttribute('data-collection', backward.ref.parent.id);
+    newBackward.setAttribute('data-value', backward.data().value);
+
+    let newBackwardItem = document.createElement('h1');
+    newBackwardItem.innerHTML = requestPaid + ': ' + translateOp(backward.data().op);
+    newBackwardItem.classList.add('backward_item');
+    newBackward.appendChild(newBackwardItem);
+
+    let newBackwardDate = document.createElement('h2');
+    newBackwardDate.classList.add('backward_date');
+    newBackwardDate.innerHTML = dateAndHours;
+    newBackward.appendChild(newBackwardDate);
+
+    let newBackwardValue = document.createElement('h2');
+    newBackwardValue.classList.add('backward_value');
+    newBackwardValue.innerHTML = backward.data().value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+    newBackward.appendChild(newBackwardValue);
+
+    pageBackwardsContainer.appendChild(newBackward);
 }
 
 doneBtnRequests.onclick = () => {

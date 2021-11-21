@@ -347,3 +347,13 @@ function checkIfThereIsStock(items) {
     }
     return true;
 }
+
+function getRequestAddress(id) {
+    for (let index = 0; index < requestList.length; index++) {
+        const request = requestList[index];
+        if (request.id === id) {
+            let address = request.data().address;
+            return address;
+        }
+    }
+}
