@@ -518,7 +518,10 @@ function renderCash(cash) {
 }
 
 function renderExpense(expense) {
-    const date = new Date(expense.data().createTime).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+    const date = new Date(expense.data().createTime);
+    const formatedDate = date.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+    const dateAndHours = formatedDate + ' ' + date.getHours() + ':' + date.getMinutes();
+
     let newExpense = document.createElement('div');
     newExpense.classList.add('expense');
     newExpense.setAttribute('data-id', expense.id);
@@ -532,7 +535,7 @@ function renderExpense(expense) {
 
     let newExpenseDate = document.createElement('h2');
     newExpenseDate.classList.add('expense_date');
-    newExpenseDate.innerHTML = date;
+    newExpenseDate.innerHTML = dateAndHours;
     newExpense.appendChild(newExpenseDate);
 
     let newExpenseValue = document.createElement('h2');

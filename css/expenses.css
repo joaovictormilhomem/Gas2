@@ -28,14 +28,14 @@
   text-transform: uppercase;
 }
 
-.expense_value{
-  font-size: 1.4rem;
-  font-weight: 400;
-  margin-left: 20px;
-}
-
 .expense_date{
   font-size: 1.4rem;
   font-weight: 400;
   margin-left: 5px;
+}
+
+.expense_value{
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin-left: 40px;
 }
