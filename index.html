@@ -17,6 +17,8 @@
   <link rel='stylesheet' href='./css/popups.css'>
   <link rel="stylesheet" href="./css/forwards.css">
   <link rel="stylesheet" href="./css/fixed-buttons.css">
+  <link rel="stylesheet" href="./css/expenses.css">
+  <link rel="stylesheet" href="./css/backwards.css">
 </head>
 
 <body>
@@ -29,6 +31,8 @@
         <li id='btn_customers'>Clientes</li>
         <li id='btn_stock'>Estoque</li>
         <li id='btn_cash'>Caixa</li>
+        <li id='btn_expenses'>Despesas</li>
+        <li id='btn_backwards'>Recebidos</li>
       </ul>
     </nav>
   </div>
@@ -38,7 +42,6 @@
     <div id='page_requests'>
       <div id='page_requests_container'>Carregando...</div>
       <div class="fixed-buttons-container" id="requests-fixed-buttons">
-        <!-- <div class='fixed-button history-button' id='history-button-requests' title="Histórico de pedidos"></div> -->
         <div class='fixed-button done-button' id='done-button-requests' title="Pedidos entregues hoje"></div>
         <div class='add-button fixed-button' id='add-button-requests' title="criar pedido"></div>
       </div>
@@ -112,6 +115,23 @@
         <div class='add-button fixed-button' id='add-button-cash' title="lançar despesa"></div>
       </div>
     </div>
+
+    <div id='page_expenses'>
+      <div id='page_expenses_container'>page_expenses</div>
+      <div class="fixed-buttons-container" id="expenses-fixed-buttons">
+        <div class='fixed-button done-button' id='done-button-expenses' title="Pedidos entregues hoje"></div>
+        <div class='add-button fixed-button' id='add-button-expenses' title="criar pedido"></div>
+      </div>
+    </div>
+
+    <div id='page_backwards'>
+      <div id='page_backwards_container'>page_backwards</div>
+      <div class="fixed-buttons-container" id="backwards-fixed-buttons">
+        <div class='fixed-button done-button' id='done-button-backwards' title="Pedidos entregues hoje"></div>
+        <div class='add-button fixed-button' id='add-button-backwards' title="criar pedido"></div>
+      </div>
+    </div>
+
   </div>
 
   <div class='popup' id='new-request-popup'>        

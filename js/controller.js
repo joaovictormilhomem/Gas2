@@ -1,6 +1,8 @@
 let requestListCopy = [];
 let atualStockCopy = {};
 let atualCashCopy = {};
+let expenseListCopy = [];
+let backwardListCopy = [];
 let isHistoryRequestsOn = false;
 let cashDay;
 let selectedCash = {};
@@ -46,6 +48,10 @@ function handleRenderForwards(forwards) {
         let days = Math.ceil(difference / (1000 * 60 * 60 * 24));
         renderForward(forward, days);
     });
+}
+
+function handleRenderExpenses() {
+    expenseList.forEach(expense => renderExpense(expense));
 }
 
 function handleNewExpenseClick(value, item, notes) {
@@ -206,6 +212,14 @@ async function start() {
             atualStockCopy.p13Empty = atualStock.p13Empty;
             atualStockCopy.waterEmpty = atualStock.waterEmpty;
             renderStock(atualStockCopy);
+        }
+    }, 500);
+
+    let autoRenderExpenses = setInterval(() => {
+        if (expenseListCopy !== expenseList) {
+            expenseListCopy = expenseList;
+            clearExpenses();
+            handleRenderExpenses();
         }
     }, 500);
 }

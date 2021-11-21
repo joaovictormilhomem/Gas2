@@ -1,0 +1,41 @@
+#page_expenses{
+  padding: 10px;
+  height: 100vh;
+  display: none;
+}
+
+.expense{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  position: relative;
+  background-color: rgb(74, 105, 189, 0.1);
+  border-radius: 10px;
+  padding: 10px;
+}
+.expense:hover{
+  background-color: rgb(74, 105, 189, 0.3);
+  transition: ease-in-out 0.2s background-color,border-radius;
+}
+
+.expense_item{
+  font-size: 2rem;
+  font-weight: 500;
+  width: 100%;
+  margin-bottom: 5px;
+}
+.expense_item::first-letter{
+  text-transform: uppercase;
+}
+
+.expense_value{
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin-left: 20px;
+}
+
+.expense_date{
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin-left: 5px;
+}

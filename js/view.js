@@ -1,16 +1,24 @@
 const pageRequestsContainer = document.getElementById('page_requests_container');
 const pageForwardsContainer = document.getElementById('page_forwards_container');
+const pageExpensesContainer = document.getElementById('page_expenses_container');
+const pageBackwardsContainer = document.getElementById('page_backwards_container');
+
 const pageRequests = document.getElementById('page_requests');
 const pageForwards = document.getElementById('page_forwards');
 const pageCustomers = document.getElementById('page_customers');
 const pageStock = document.getElementById('page_stock');
 const pageCash = document.getElementById('page_cash');
-const pages = [pageRequests, pageForwards, pageCustomers, pageStock, pageCash];
+const pageExpenses = document.getElementById('page_expenses');
+const pageBackwards = document.getElementById('page_backwards');
+const pages = [pageRequests, pageForwards, pageCustomers, pageStock, pageCash, pageExpenses, pageBackwards];
+
 const btnRequests = document.getElementById('btn_requests');
 const btnForwards = document.getElementById('btn_forwards');
 const btnCustomers = document.getElementById('btn_customers');
 const btnStock = document.getElementById('btn_stock');
 const btnCash = document.getElementById('btn_cash');
+const btnExpenses = document.getElementById('btn_expenses');
+const btnBackwards = document.getElementById('btn_backwards');
 const addButtons = document.getElementsByClassName('add-button');
 
 const historyBtnRequests = document.getElementById('history-button-requests');
@@ -48,6 +56,18 @@ btnCash.onclick = () => {
     pages.forEach(page => page.style.display = 'none');
     pageCash.style.display = 'block';
     activePage = 4;
+}
+
+btnExpenses.onclick = () => {
+    pages.forEach(page => page.style.display = 'none');
+    pageExpenses.style.display = 'block';
+    activePage = 5;
+}
+
+btnBackwards.onclick = () => {
+    pages.forEach(page => page.style.display = 'none');
+    pageBackwards.style.display = 'block';
+    activePage = 6;
 }
 
 // Show/Close
@@ -326,7 +346,7 @@ function createItemNotes(request, days) {
         if (request.data().paidvalue > 0 && request.data().paidvalue !== request.data().value)
             notes += '. Valor restante: ' + (request.data().value - request.data().paidvalue).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
     }
-    else 
+    else
         notes += opTranslations[request.data().op];
 
     return notes;
@@ -357,10 +377,10 @@ function renderRequest(request) {
     newRequestAddress.classList.add('request_address');
     newRequest.appendChild(newRequestAddress);
 
-/*     let newRequestOp = document.createElement('h2');
-    newRequestOp.innerHTML = translateOp(request.data().op);
-    newRequestOp.classList.add('request_op');
-    newRequest.appendChild(newRequestOp); */
+    /*     let newRequestOp = document.createElement('h2');
+        newRequestOp.innerHTML = translateOp(request.data().op);
+        newRequestOp.classList.add('request_op');
+        newRequest.appendChild(newRequestOp); */
 
     if (request.data().status !== 'finished') {
         let newDeleteRequest = document.createElement('p');
@@ -387,6 +407,11 @@ function clearRequests() {
 function clearRequestsAndForwards() {
     pageRequestsContainer.innerHTML = '';
     pageForwardsContainer.innerHTML = '';
+    startAddButtons();
+}
+
+function clearExpenses() {
+    pageExpensesContainer.innerHTML = '';
     startAddButtons();
 }
 
@@ -490,6 +515,32 @@ function renderCash(cash) {
     forwardNumberElement.innerHTML = cash.forward.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
     expenseNumberElement.innerHTML = cash.expense.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
     totalNumberElement.innerHTML = cash.total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+}
+
+function renderExpense(expense) {
+    const date = new Date(expense.data().createTime).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+    let newExpense = document.createElement('div');
+    newExpense.classList.add('expense');
+    newExpense.setAttribute('data-id', expense.id);
+    newExpense.setAttribute('data-collection', expense.ref.parent.id);
+    newExpense.setAttribute('data-value', expense.data().value);
+
+    let newExpenseItem = document.createElement('h1');
+    newExpenseItem.innerHTML = expense.data().item + ': ' + expense.data().notes;
+    newExpenseItem.classList.add('expense_item');
+    newExpense.appendChild(newExpenseItem);
+
+    let newExpenseDate = document.createElement('h2');
+    newExpenseDate.classList.add('expense_date');
+    newExpenseDate.innerHTML = date;
+    newExpense.appendChild(newExpenseDate);
+
+    let newExpenseValue = document.createElement('h2');
+    newExpenseValue.classList.add('expense_value');
+    newExpenseValue.innerHTML = expense.data().value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+    newExpense.appendChild(newExpenseValue);
+
+    pageExpensesContainer.appendChild(newExpense);
 }
 
 doneBtnRequests.onclick = () => {

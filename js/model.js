@@ -1,4 +1,6 @@
 let requestList = [];
+let expenseList = [];
+let backwardList = [];
 let atualStock = {};
 let atualCash = {};
 let cashHistory = {};
@@ -30,53 +32,69 @@ function startFirebase() {
 
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
-        
-        db   = firebase.firestore()
+
+        db = firebase.firestore()
         auth = firebase.auth();
 
-        let loginIsDone = login('teste@teste.com','123123');
+        let loginIsDone = login('teste@teste.com', '123123');
         startLookingForChanges();
         resolve(loginIsDone);
     })
 }
 
 function startLookingForChanges() {
-    let handleListenerRequests = db.collection('requests').onSnapshot((collection) => {
-        requestList = collection.docs;
-    })
-
-    let handleListenerStock = db.collection('stock').onSnapshot((collection) => {
-        collection.docs.forEach(item => {
-            atualStock[item.id] = item.data().number;
-        });
-    })
-
-    let handleListenerCash = db.collection('cash').onSnapshot((collection) => {
-        cashHistory = collection.docs;
-        collection.docs.forEach(item => {
-            if (item.id === day) {
-                atualCash.incash = item.data().incash;
-                atualCash.card = item.data().card;
-                atualCash.pix = item.data().pix;
-                atualCash.forward = item.data().forward;
-                atualCash.expense = item.data().expense;
-                atualCash.incashLessExpense = atualCash.incash - atualCash.expense;
-                atualCash.total = atualCash.incashLessExpense + atualCash.card + atualCash.pix;
-            }
-            checkUndefinedCash(atualCash);
+    let handleListenerRequests = db.collection('requests')
+        .where("startTime", ">=", getCurrentDateOnMidnight())
+        .onSnapshot((collection) => {
+            requestList = collection.docs;
         })
-    })
+
+    let handleListenerExpenses = db.collection('expenses')
+        .where("createTime", ">=", getCurrentDateOnMidnight())
+        .onSnapshot((collection) => {
+            expenseList = collection.docs;
+        })
+
+    let handleListenerBackwards = db.collection('backwards')
+        .where("when", ">=", getCurrentDateOnMidnight())
+        .onSnapshot((collection) => {
+            backwardList = collection.docs;
+        })
+
+    let handleListenerStock = db.collection('stock')
+        .onSnapshot((collection) => {
+            collection.docs.forEach(item => {
+                atualStock[item.id] = item.data().number;
+            });
+        })
+
+    let handleListenerCash = db.collection('cash')
+        .onSnapshot((collection) => {
+            cashHistory = collection.docs;
+            collection.docs.forEach(item => {
+                if (item.id === day) {
+                    atualCash.incash = item.data().incash;
+                    atualCash.card = item.data().card;
+                    atualCash.pix = item.data().pix;
+                    atualCash.forward = item.data().forward;
+                    atualCash.expense = item.data().expense;
+                    atualCash.incashLessExpense = atualCash.incash - atualCash.expense;
+                    atualCash.total = atualCash.incashLessExpense + atualCash.card + atualCash.pix;
+                }
+                checkUndefinedCash(atualCash);
+            })
+        })
 }
 
-function createBackward(id, value, paymentMethod){
+function createBackward(id, value, paymentMethod) {
     let now = new Date().valueOf();
     db.collection('backwards').add({
         forward: id,
         when: now,
         value: value,
         op: paymentMethod
-    }).then((doc)=>{
-    }).catch(err=>{
+    }).then((doc) => {
+    }).catch(err => {
         console.log(err);
     })
 }
@@ -100,15 +118,15 @@ function changeForwardPaidValueAndOp(id, paidValue, op) {
     })
 }
 
-function createExpense(value, item, notes){
+function createExpense(value, item, notes) {
     let now = new Date().valueOf();
     db.collection('expenses').add({
         item: item,
         notes: notes,
         createTime: now,
         value: value
-    }).then((doc)=>{
-    }).catch(err=>{
+    }).then((doc) => {
+    }).catch(err => {
         console.log(err);
     })
 }
@@ -138,8 +156,8 @@ function createRequest(customer, address, telephone, items, value, op) {
         value: value,
         paidvalue: paidValue,
         op: op
-    }).then((doc)=>{
-    }).catch(err=>{
+    }).then((doc) => {
+    }).catch(err => {
         console.log(err);
     })
 }
@@ -189,8 +207,8 @@ function createClient(name, address, birthday, phone) {
         phone: phone,
         status: 'active',
         startTime: now
-    }).then((doc)=>{
-    }).catch(err=>{
+    }).then((doc) => {
+    }).catch(err => {
         console.log(err);
     })
 }
@@ -233,15 +251,15 @@ function updateCashValue() {
     })
 }
 
-function login(email,password) {
+function login(email, password) {
     return new Promise(resolve => {
         auth.signInWithEmailAndPassword(email, password)
-        .then((user) => {
-            resolve(true);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+            .then((user) => {
+                resolve(true);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     })
 }
 
@@ -255,7 +273,7 @@ function wasNotDeletedAndIsFinished(request) {
     return request.data().status !== 'deleted' && request.data().status === 'finished';
 }
 
-function wasNotDeletedOrFinished(request) { 
+function wasNotDeletedOrFinished(request) {
     return request.data().status !== 'deleted' && request.data().status !== 'finished';
 }
 
@@ -263,7 +281,7 @@ function isFilled(stringsAndObjects, value) {
     filled = true;
 
     stringsAndObjects.forEach(item => {
-        if (item === '' || item === null || item === undefined || JSON.stringify(item) === JSON.stringify({})){
+        if (item === '' || item === null || item === undefined || JSON.stringify(item) === JSON.stringify({})) {
             filled = false;
         }
     });
@@ -279,12 +297,21 @@ function isForward(request) {
 
 function getCurrentDate() {
     let day = new Date;
-    return (day.getDate()) + '-' + (day.getMonth()+1) + '-' + day.getFullYear();
+    return (day.getDate()) + '-' + (day.getMonth() + 1) + '-' + day.getFullYear();
+}
+
+function getCurrentDateOnMidnight() {
+    const today = new Date();
+    today.setHours(0);
+    today.setMinutes(0);
+    today.setSeconds(0);
+    today.setMilliseconds(0);
+    return today.getTime();
 }
 
 function shortDate(timestamp) {
     let date = new Date(timestamp);
-    let dateString = date.getDate()+'/'+(date.getMonth() + 1)+'/'+date.getFullYear(); //+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds();
+    let dateString = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear(); //+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds();
     return dateString;
 }
 
@@ -292,7 +319,7 @@ function checkUndefinedCash(cash) {
     keys = ['incash', 'card', 'pix', 'forward', 'expense', 'total', 'incashLessExpense'];
 
     keys.forEach(key => {
-        if(cash[key] === undefined || isNaN(cash[key]))
+        if (cash[key] === undefined || isNaN(cash[key]))
             cash[key] = 0;
     });
 }
@@ -304,7 +331,7 @@ function isEqualObjects(object1, object2) {
 function deleteNaNAndDuplicatedProps(obj) {
     let newObj = {};
     let firsProp;
-    for(const prop in obj) {
+    for (const prop in obj) {
         if (!isNaN(obj[prop]) && obj[prop] !== firsProp) {
             if (obj[prop] > 0) newObj[prop] = obj[prop];
         }
@@ -314,7 +341,7 @@ function deleteNaNAndDuplicatedProps(obj) {
 }
 
 function checkIfThereIsStock(items) {
-    for(const item in items) {
+    for (const item in items) {
         if (atualStock[item] < items[item]) {
             return false;
         }
