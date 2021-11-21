@@ -44,7 +44,6 @@ function startFirebase() {
 
 function startLookingForChanges() {
     let handleListenerRequests = db.collection('requests')
-        .where("startTime", ">=", getCurrentDateOnMidnight())
         .onSnapshot((collection) => {
             requestList = collection.docs;
         })
